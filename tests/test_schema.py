@@ -19,6 +19,16 @@ def test_essential_tables_exist() -> None:
     assert expected.issubset(set(tables.keys()))
 
 
+def test_user_roles_enforces_company_isolation() -> None:
+    user_roles = Base.metadata.tables["user_roles"]
+
+    assert "company_id" in user_roles.c
+
+    fk_columns = {tuple(fk.parent.name for fk in constraint.elements) for constraint in user_roles.foreign_key_constraints}
+    assert ("user_id", "company_id") in fk_columns
+    assert ("role_id", "company_id") in fk_columns
+
+
 def test_min_max_replenishment_rounding() -> None:
     result = calculate_min_max_order(
         ReplenishmentInput(
