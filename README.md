@@ -13,17 +13,31 @@
 - מערכת ליקוט להזמנות מאתרי סחר
 - תצוגות דפים עם התאמה לנייד + דף תצוגת פרויקט מלאה
 
-## Codex Cloud / Development
+## הפעלה מהירה (Codex Cloud / Local)
+
+### אפשרות 1 - פקודה אחת
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e .[dev]
-pytest -q
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+./scripts/setup_and_run.sh
 ```
 
-לאחר ההרצה:
+הסקריפט מבצע:
+1. התקנת תלויות
+2. יצירת סכימת DB
+3. הרצת בדיקות
+4. העלאת שרת על `0.0.0.0:8000`
+
+### אפשרות 2 - Makefile
+
+```bash
+make install
+make init-db
+make test
+make run-cloud
+```
+
+## כתובות צפייה
+
 - דף הבית: `http://127.0.0.1:8000/`
 - תצוגת הפרויקט במלואו: `http://127.0.0.1:8000/project`
 - מניפסט JSON של כל מרכיבי הפרויקט: `http://127.0.0.1:8000/api/project/manifest`
