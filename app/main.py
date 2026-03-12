@@ -51,6 +51,21 @@ def module_page(request: Request, page_key: str) -> HTMLResponse:
     )
 
 
+@app.get("/health")
+def health() -> dict[str, str]:
+    return {"status": "ok", "service": "geffens-supermarket-erp"}
+
+
+@app.get("/api/system/mobile-access")
+def mobile_access() -> dict[str, str]:
+    return {
+        "run_command": "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload",
+        "browser_url": "http://127.0.0.1:8000",
+        "mobile_url_pattern": "http://<YOUR_COMPUTER_LAN_IP>:8000",
+        "tip": "ודאי שהמחשב והנייד באותה רשת Wi‑Fi.",
+    }
+
+
 @app.post("/api/replenishment/min-max")
 def min_max_replenishment(payload: ReplenishmentPayload) -> dict[str, float | bool]:
     result = calculate_min_max_order(ReplenishmentInput(**payload.model_dump()))

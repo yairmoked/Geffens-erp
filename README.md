@@ -15,8 +15,7 @@
 - מערכת ליקוט להזמנות מאתרי סחר:
   - אצוות ליקוט
   - משימות ליקוט ושורות ליקוט
-- תצוגות דפים (UI בסיסי ב-FastAPI + Jinja):
-  - דשבורד, רכש, מינימום/מקסימום, אינטגרציות סחר, הזמנות אונליין, ליקוט, מלאי, כספים, HR
+- תצוגות דפים (UI בסיסי ב-FastAPI + Jinja) עם התאמה לנייד
 
 ## הרצה מהירה
 
@@ -25,14 +24,18 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -e .[dev]
 pytest -q
-uvicorn app.main:app --reload
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-פתיחת דפדפן:
-- `http://127.0.0.1:8000/`
+## צפייה בדפדפן / מובייל
 
-API שימושי:
+- מחשב מקומי: `http://127.0.0.1:8000/`
+- מובייל (אותה רשת Wi‑Fi): `http://<IP-של-המחשב>:8000/`
+- בדיקת תקינות: `http://127.0.0.1:8000/health`
+
+## API שימושי
+
+- `GET /api/system/mobile-access`
 - `POST /api/replenishment/min-max`
 - `GET /api/integrations/channels`
 - `GET /api/picking/board`
-

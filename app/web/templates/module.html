@@ -2,11 +2,14 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ page_title }}</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; background: #f8fafc; }
+    body { font-family: Arial, sans-serif; margin: 1rem; background: #f8fafc; }
     .box { background: #fff; padding: 16px; border-radius: 10px; border: 1px solid #e5e7eb; }
-    .menu a { margin-inline-start: 10px; }
+    .menu { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .menu a { text-decoration: none; background: #fff; border: 1px solid #e5e7eb; padding: 8px 10px; border-radius: 8px; color: #111; }
+    .menu a:hover { border-color: #1f3c88; }
   </style>
 </head>
 <body>

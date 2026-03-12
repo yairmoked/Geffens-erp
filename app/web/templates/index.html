@@ -2,22 +2,35 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Geffens ERP</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; background: #f6f7fb; }
-    h1 { color: #1f3c88; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 12px; }
+    body { font-family: Arial, sans-serif; margin: 1rem; background: #f6f7fb; }
+    h1 { color: #1f3c88; font-size: clamp(1.2rem, 2.5vw, 2rem); }
+    p { font-size: 0.95rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 12px; }
     a.card { background: white; padding: 16px; border-radius: 10px; text-decoration: none; color: #111; border: 1px solid #e5e7eb; }
     a.card:hover { border-color: #1f3c88; }
+    .tips { margin-top: 14px; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; }
+    code { direction: ltr; display: inline-block; }
   </style>
 </head>
 <body>
   <h1>מערכת ERP לסופרמרקט וחנויות נוחות 24/7</h1>
-  <p>בחרי עמוד להצגה:</p>
+  <p>בחרי עמוד להצגה בדפדפן או במובייל.</p>
   <div class="grid">
     {% for key, title in pages.items() %}
       <a class="card" href="/pages/{{ key }}">{{ title }}</a>
     {% endfor %}
+  </div>
+
+  <div class="tips">
+    <strong>גישה ממובייל:</strong>
+    <ul>
+      <li>הריצי: <code>uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload</code></li>
+      <li>במחשב: <code>http://127.0.0.1:8000</code></li>
+      <li>בנייד (אותה רשת Wi‑Fi): <code>http://IP-של-המחשב:8000</code></li>
+    </ul>
   </div>
 </body>
 </html>
