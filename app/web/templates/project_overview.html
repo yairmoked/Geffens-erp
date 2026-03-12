@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>תצוגת פרויקט מלאה</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 1rem; background: #f8fafc; }
+    .box { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+    code { direction: ltr; }
+    ul { margin: 0; padding-right: 18px; }
+  </style>
+</head>
+<body>
+  <a href="/">← חזרה לדף הבית</a>
+  <h1>תצוגת הפרויקט במלואו</h1>
+
+  <div class="box">
+    <h3>API Endpoints</h3>
+    <ul>
+      {% for endpoint in api_endpoints %}
+        <li><code>{{ endpoint }}</code></li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  {% for section, files in manifest.items() %}
+  <div class="box">
+    <h3>{{ section }}</h3>
+    <ul>
+      {% for file in files %}
+        <li><code>{{ file }}</code></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</body>
+</html>

@@ -22,14 +22,16 @@
     {% for key, title in pages.items() %}
       <a class="card" href="/pages/{{ key }}">{{ title }}</a>
     {% endfor %}
+    <a class="card" href="/project">תצוגת פרויקט מלאה (Codex Cloud)</a>
   </div>
 
   <div class="tips">
-    <strong>גישה ממובייל:</strong>
+    <strong>גישה ממובייל / Codex Cloud:</strong>
     <ul>
       <li>הריצי: <code>uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload</code></li>
       <li>במחשב: <code>http://127.0.0.1:8000</code></li>
       <li>בנייד (אותה רשת Wi‑Fi): <code>http://IP-של-המחשב:8000</code></li>
+      <li>ב-Codex Cloud: פתחי את כתובת ה-Port Forward של 8000</li>
     </ul>
   </div>
 </body>

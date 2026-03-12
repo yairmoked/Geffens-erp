@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -9,6 +11,7 @@ from app.services.replenishment import ReplenishmentInput, calculate_min_max_ord
 
 app = FastAPI(title="Geffens Supermarket ERP")
 templates = Jinja2Templates(directory="app/web/templates")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 class ReplenishmentPayload(BaseModel):
@@ -32,6 +35,19 @@ PAGE_MAP = {
 }
 
 
+def build_project_manifest() -> dict[str, list[str]]:
+    groups = {
+        "root": ["README.md", "pyproject.toml"],
+        "app": sorted(str(p.relative_to(PROJECT_ROOT)) for p in (PROJECT_ROOT / "app").rglob("*.py")),
+        "templates": sorted(
+            str(p.relative_to(PROJECT_ROOT))
+            for p in (PROJECT_ROOT / "app" / "web" / "templates").glob("*.html")
+        ),
+        "tests": sorted(str(p.relative_to(PROJECT_ROOT)) for p in (PROJECT_ROOT / "tests").glob("test_*.py")),
+    }
+    return groups
+
+
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request) -> HTMLResponse:
     return templates.TemplateResponse("index.html", {"request": request, "pages": PAGE_MAP})
@@ -51,6 +67,25 @@ def module_page(request: Request, page_key: str) -> HTMLResponse:
     )
 
 
+@app.get("/project", response_class=HTMLResponse)
+def project_overview(request: Request) -> HTMLResponse:
+    return templates.TemplateResponse(
+        "project_overview.html",
+        {
+            "request": request,
+            "manifest": build_project_manifest(),
+            "api_endpoints": [
+                "/health",
+                "/api/system/mobile-access",
+                "/api/project/manifest",
+                "/api/replenishment/min-max",
+                "/api/integrations/channels",
+                "/api/picking/board",
+            ],
+        },
+    )
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok", "service": "geffens-supermarket-erp"}
@@ -59,11 +94,17 @@ def health() -> dict[str, str]:
 @app.get("/api/system/mobile-access")
 def mobile_access() -> dict[str, str]:
     return {
+        "cloud_hint": "Run this repository inside Codex cloud workspace and use the forwarded URL.",
         "run_command": "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload",
         "browser_url": "http://127.0.0.1:8000",
         "mobile_url_pattern": "http://<YOUR_COMPUTER_LAN_IP>:8000",
         "tip": "ודאי שהמחשב והנייד באותה רשת Wi‑Fi.",
     }
+
+
+@app.get("/api/project/manifest")
+def project_manifest() -> dict[str, list[str]]:
+    return build_project_manifest()
 
 
 @app.post("/api/replenishment/min-max")

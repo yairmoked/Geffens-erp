@@ -17,3 +17,12 @@ def test_mobile_access_endpoint() -> None:
     body = response.json()
     assert 'run_command' in body
     assert body['mobile_url_pattern'].startswith('http://')
+
+
+def test_project_manifest_endpoint() -> None:
+    response = client.get('/api/project/manifest')
+    assert response.status_code == 200
+    body = response.json()
+    assert 'app' in body
+    assert 'tests' in body
+    assert any(p.endswith('app/main.py') for p in body['app'])
