@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ page_title }}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 1rem; background: #f8fafc; }
+    .box { background: #fff; padding: 16px; border-radius: 10px; border: 1px solid #e5e7eb; }
+    .menu { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .menu a { text-decoration: none; background: #fff; border: 1px solid #e5e7eb; padding: 8px 10px; border-radius: 8px; color: #111; }
+    .menu a:hover { border-color: #1f3c88; }
+  </style>
+</head>
+<body>
+  <div class="menu">
+    <a href="/">דף הבית</a>
+    {% for key, title in all_pages.items() %}
+      <a href="/pages/{{ key }}">{{ title }}</a>
+    {% endfor %}
+  </div>
+  <div class="box">
+    <h2>{{ page_title }}</h2>
+    <p>מזהה עמוד: {{ page_key }}</p>
+    <p>עמוד זה מוכן להצגת נתוני ERP אמיתיים מה־API והדאטהבייס.</p>
+  </div>
+</body>
+</html>
