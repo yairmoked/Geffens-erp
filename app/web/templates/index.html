@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Geffens ERP</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #f6f7fb; }
+    h1 { color: #1f3c88; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 12px; }
+    a.card { background: white; padding: 16px; border-radius: 10px; text-decoration: none; color: #111; border: 1px solid #e5e7eb; }
+    a.card:hover { border-color: #1f3c88; }
+  </style>
+</head>
+<body>
+  <h1>מערכת ERP לסופרמרקט וחנויות נוחות 24/7</h1>
+  <p>בחרי עמוד להצגה:</p>
+  <div class="grid">
+    {% for key, title in pages.items() %}
+      <a class="card" href="/pages/{{ key }}">{{ title }}</a>
+    {% endfor %}
+  </div>
+</body>
+</html>
