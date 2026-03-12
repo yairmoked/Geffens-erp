@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import Boolean, Column, ForeignKey, String, Table, Text
+from sqlalchemy import Boolean, Column, ForeignKey, ForeignKeyConstraint, String, Table, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base, TimestampMixin
@@ -15,13 +15,25 @@ role_permissions = Table(
 user_roles = Table(
     "user_roles",
     Base.metadata,
-    Column("user_id", ForeignKey("users.id"), primary_key=True),
-    Column("role_id", ForeignKey("roles.id"), primary_key=True),
+    Column("company_id", ForeignKey("companies.id"), primary_key=True),
+    Column("user_id", primary_key=True),
+    Column("role_id", primary_key=True),
+    ForeignKeyConstraint(
+        ["user_id", "company_id"],
+        ["users.id", "users.company_id"],
+        name="fk_user_roles_user_company",
+    ),
+    ForeignKeyConstraint(
+        ["role_id", "company_id"],
+        ["roles.id", "roles.company_id"],
+        name="fk_user_roles_role_company",
+    ),
 )
 
 
 class User(TimestampMixin, Base):
     __tablename__ = "users"
+    __table_args__ = (UniqueConstraint("id", "company_id", name="uq_users_id_company"),)
 
     id: Mapped[int] = mapped_column(primary_key=True)
     company_id: Mapped[int] = mapped_column(ForeignKey("companies.id"), nullable=False)
@@ -35,6 +47,7 @@ class User(TimestampMixin, Base):
 
 class Role(TimestampMixin, Base):
     __tablename__ = "roles"
+    __table_args__ = (UniqueConstraint("id", "company_id", name="uq_roles_id_company"),)
 
     id: Mapped[int] = mapped_column(primary_key=True)
     company_id: Mapped[int] = mapped_column(ForeignKey("companies.id"), nullable=False)
